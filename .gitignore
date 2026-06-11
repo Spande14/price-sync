@@ -1,5 +1,8 @@
-# Generated reports
-output/
+# Generated reports (keep the folder itself via .gitkeep)
+output/*.csv
+
+# Claude Code
+.claude/
 
 # Python
 __pycache__/
