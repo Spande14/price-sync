@@ -158,11 +158,12 @@ Thresholds are set per product category:
 
 ## Scaling to more brands
 
-The tool is brand-agnostic by design — adding a new brand requires no code changes if the supplier's column names match existing aliases:
+The script itself is brand-agnostic by design — adding a new brand requires no code changes if the supplier's column names match existing aliases:
 
 - Drop the new supplier file into `data/input/` and run as normal
 - If the file uses new column names, add them to the alias map in `parser.py` — one line per alias
 - Category thresholds in `auto_approve.py` are a dictionary; adding a new category minimum is one line
+- New brands, product categories, and the related SKUs need to be present in the Shopware CSV
 
 The only thing that does not scale automatically is if a new supplier uses a file format or encoding not yet handled (e.g. a fixed-width file). That would require a parser extension, not a configuration change.
 
