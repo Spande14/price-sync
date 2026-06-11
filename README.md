@@ -180,16 +180,15 @@ The only thing that does not scale automatically is if a new supplier uses a fil
 ## Production considerations
 
 **API integration.** Replace the Shopware CSV export with a live call to the Shopware 6 API so comparisons are always against current data. Prices can change between the export and the run, which would produce stale baseline margins.
+This also enables the script to write back to Shopware once price changes are approved. 
+
+**CLI vs. GUI.** The current CLI works for very few people but an HTML based GUI can enable the majority of potential users. CLI works well for prototyping and was mentioned specifically in the case. A GUI would be preferred once we move to production.
 
 **Audit trail.** Every auto-approved change should be logged with a timestamp, the operator identity, the before/after values, and the reason string. This matters for finance and compliance: if a margin drops below target after an auto-approval, you need to be able to reconstruct exactly what the tool saw and why it approved it.
 
 **Input validation at the boundary.** The parser currently handles missing or unparseable prices by flagging them as `invalid_data`. In production, additional validation should be applied before the file enters the pipeline: file size limits, a check that the SKU count is within a plausible range of the previous run, and a checksum or signature if the supplier can provide one. A malformed or tampered file should be rejected before parsing, not discovered mid-run.
 
 **Credentials and secrets.** Shopware API credentials, any supplier SFTP keys, and notification webhook URLs must not live in the codebase. Use environment variables or a secrets manager.
-
-**Idempotency.** Running the tool twice on the same input should produce the same output and not double-apply any changes. This is already true for the CSV report, but matters especially if auto-approvals are wired up to trigger Shopware API writes.
-
-**Alerting on unexpected patterns.** If a single supplier file contains an unusually high proportion of `invalid_data` rows, or if the average margin shift is outside a historical norm, that is a signal the file may be corrupt or mis-exported. A production system should alert on these patterns rather than silently processing them.
 
 **Test coverage on real data.** The current test suite uses synthetic files that deliberately cover known edge cases in parsing and approval logic. Production robustness depends on how well real supplier files are represented. The first step after go-live should be building a regression suite from historical supplier files, with any parsing failures fed back into the alias map and number-format handling.
 
