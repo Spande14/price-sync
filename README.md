@@ -11,16 +11,36 @@ A recurring operational challenge is that suppliers frequently send updated pric
 
 In this case all the data is managed in the same file which it should not be in a real world scenario. 
 
-## How it works
+## How to run
 
-Place one or more supplier price list(s) in `data/input/` and run the main.py script. It must be .csv or xlxs. files
+**Install dependencies** (one-time):
+
+```
+pip install -r requirements.txt
+```
+
+**Each time you receive a new price list:**
+
+1. Export current product data from Shopware and save it as `data/existing/shopware.csv` (fixed column format — see [Existing Shopware data])
+2. Drop one or more supplier price list files into `data/input/` (CSV or xlsx, any filename)
+3. Run:
+
+```
+python3 main.py
+```
+
+4. Open the timestamped report written to `output/` — auto-approved rows can be actioned immediately, everything else is flagged for manual review
+
+Files that can't be recognised are skipped with a warning; the rest of the batch still runs. Warnings are printed to stdout.
+
+## How it works
 
 The script:
 1. Loads all supplier files from `data/input/` (a file whose columns can't be recognised is skipped with a warning — it does not abort the run)
 2. Pools every product from every file into one set, keyed by SKU
 3. Compares new cost prices and RRPs against current Shopware data, matching on SKU
 4. Calculates the current and new margin for each product
-5. Flags what could be auto-approved based on margin rules (see [Auto-approval rules]; everything else is flagged for manual review
+5. Flags what could be auto-approved based on margin rules (see [Auto-approval rules]); everything else is flagged for manual review
 6. Writes a single combined CSV report to `output/`
 
 ### SKU-level matching
@@ -122,15 +142,55 @@ Thresholds are set per product category:
 
 `new_product` and `invalid_data` always require manual review.
 
-## Limitations and design decisions
+## Choices and trade-offs
 
-**CSV instead of API.** Shopware data is read from a CSV export rather than pulled live from the Shopware 6 API. In production this would ideally be a direct API call to ensure the comparison is always against current data.
+**Margin direction as status, not price direction.** The output classifies each change as `margin_increase` or `margin_decrease` rather than `price_increase`, `price_decrease`, or `cost_change`. A cost increase and an RRP decrease both erode margin — the downstream consequence is the same regardless of which price moved, so the status reflects what the business actually cares about.
 
-**No discontinuation detection.** The tool only reports on SKUs present in the supplier input. A Shopware SKU missing from the input is not flagged — unpublishing discontinued products is out of scope, since the input is not assumed to be the full catalogue.
+**Two-gate approval rather than a single threshold.** Approving purely on the new margin being above the minimum would silently pass a product that drops from 80% to 61% margin as long as 61% clears the floor. The hard 2 pp decline block catches these cases. The tradeoff is more manual reviews, but a false auto-approval is worse than an unnecessary manual review.
 
-**Deterministic script vs. LLM parsing.** There is a reasonable argument for using an LLM to parse and map supplier price lists — format variation across suppliers is significant, and an LLM could handle ambiguous or novel layouts without code changes. An additional advantage is that LLMs handle multilingual input naturally: a supplier sending column headers in German, French, or Danish requires no alias additions — the model translates and maps on the fly. The tradeoff is that supplier data is commercially sensitive, which would require self-hosted model infrastructure. The current Python approach works well when there is enough consistency across supplier formats. In practice, when a new supplier file does not parse correctly, debugging and extending the alias map typically takes under a minute with use of claude code.
+**CSV instead of API.** Shopware data is read from a static export rather than pulled live from the API. This keeps the tool self-contained and easy to run without credentials, but it means the comparison is only as fresh as the last export. In production this should be a live API call.
 
-**Built on dummy data.** The tool was developed against three synthetic supplier files (one per brand, in `data/input/`) that deliberately differ in column names, delimiters, currencies, and number formats, plus a unit-test suite covering the parsing and approval logic. Production robustness will depend on how closely real supplier files match the patterns covered by the alias map, and will improve as it is built on historical data.
+**Deterministic parsing instead of LLM.** An LLM could handle novel supplier formats and multilingual column headers without any code changes. The tradeoff is that supplier data is commercially sensitive, which would require self-hosted model infrastructure. The current alias-map approach works well across consistent formats, and extending it for a new supplier typically takes under a minute.
+
+**SKU as the only match key.** Matching purely on SKU means brand is irrelevant to the comparison logic — a file can contain multiple brands, and a brand can be split across files. The tradeoff is that a SKU collision between two unrelated suppliers (unlikely but possible) would silently overwrite one with the other, with only a warning in stdout.
+
+**No discontinuation detection.** A Shopware SKU absent from the supplier input is simply ignored. Flagging absent SKUs as discontinued would require the input to be the full catalogue, which cannot be assumed.
+
+## Scaling to more brands
+
+The tool is brand-agnostic by design — adding a new brand requires no code changes if the supplier's column names match existing aliases:
+
+- Drop the new supplier file into `data/input/` and run as normal
+- If the file uses new column names, add them to the alias map in `parser.py` — one line per alias
+- Category thresholds in `auto_approve.py` are a dictionary; adding a new category minimum is one line
+
+The only thing that does not scale automatically is if a new supplier uses a file format or encoding not yet handled (e.g. a fixed-width file). That would require a parser extension, not a configuration change.
+
+## What I would not automate
+
+**New products.** A SKU that exists in the supplier file but not in Shopware requires a human to set up the product — assign the correct category, write copy, configure variants. Auto-creating it risks miscategorisation, which would apply the wrong margin threshold to every future price update for that SKU.
+
+**Large margin declines.** The 2 pp hard block is deliberately conservative. A change that pushes margin down 3 pp might be completely intentional (a promotional period, a strategic price match), but the tool has no way to know. These should always go to a person.
+
+**Changes during an active purchasing cycle.** As described in the background: there is a window after an RRP update where the new selling price is live but the cost price in the purchasing system still reflects the old batch. Auto-approving a cost change during this window could produce a misleading margin calculation. In production, a check against open purchase orders would be needed before automating cost-driven changes.
+
+**Borderline cases.** A new margin of exactly 62.1% against a 62% minimum passes the gate, but a human reviewer might reasonably hold it for context. The tool approves it — adding a buffer zone would require a business decision on where to draw the line.
+
+## Production considerations
+
+**API integration.** Replace the Shopware CSV export with a live call to the Shopware 6 API so comparisons are always against current data. Prices can change between the export and the run, which would produce stale baseline margins.
+
+**Audit trail.** Every auto-approved change should be logged with a timestamp, the operator identity, the before/after values, and the reason string. This matters for finance and compliance: if a margin drops below target after an auto-approval, you need to be able to reconstruct exactly what the tool saw and why it approved it.
+
+**Input validation at the boundary.** The parser currently handles missing or unparseable prices by flagging them as `invalid_data`. In production, additional validation should be applied before the file enters the pipeline: file size limits, a check that the SKU count is within a plausible range of the previous run, and a checksum or signature if the supplier can provide one. A malformed or tampered file should be rejected before parsing, not discovered mid-run.
+
+**Credentials and secrets.** Shopware API credentials, any supplier SFTP keys, and notification webhook URLs must not live in the codebase. Use environment variables or a secrets manager.
+
+**Idempotency.** Running the tool twice on the same input should produce the same output and not double-apply any changes. This is already true for the CSV report, but matters especially if auto-approvals are wired up to trigger Shopware API writes.
+
+**Alerting on unexpected patterns.** If a single supplier file contains an unusually high proportion of `invalid_data` rows, or if the average margin shift is outside a historical norm, that is a signal the file may be corrupt or mis-exported. A production system should alert on these patterns rather than silently processing them.
+
+**Test coverage on real data.** The current test suite uses synthetic files that deliberately cover known edge cases in parsing and approval logic. Production robustness depends on how well real supplier files are represented. The first step after go-live should be building a regression suite from historical supplier files, with any parsing failures fed back into the alias map and number-format handling.
 
 ## Requirements
 
