@@ -152,7 +152,7 @@ Thresholds are set per product category:
 
 **Deterministic parsing instead of LLM.** An LLM could handle novel supplier formats and multilingual column headers without any code changes. The tradeoff is that supplier data is commercially sensitive, which would require self-hosted model infrastructure. The current alias-map approach works well across consistent formats, and extending it for a new supplier typically takes under a minute.
 
-**SKU as the only match key.** Matching purely on SKU means brand is irrelevant to the comparison logic — a file can contain multiple brands, and a brand can be split across files. The tradeoff is that a SKU collision between two unrelated suppliers (unlikely but possible) would silently overwrite one with the other, with only a warning in stdout.
+**SKU as the only match key.** Matching purely on SKU means brand is irrelevant to the comparison logic — a file can contain multiple brands, and a brand can be split across files. The tradeoff is that a SKU collision between two unrelated suppliers would silently overwrite one with the other but will create a warning in the terminal. In case there a many cases where more than one supplier can supply a SKU and we want to buy from both suppliers, then another identifer than SKU is needed to manage cost prices. 
 
 **No discontinuation detection.** A Shopware SKU absent from the supplier input is simply ignored. Flagging absent SKUs as discontinued would require the input to be the full catalogue, which cannot be assumed.
 
