@@ -1,0 +1,16 @@
+item_code;description;buy_price;sell_price;vat_included;stock_status
+PD-DC-001;Day Cream SPF30 50ml;9,75;27,50;N;In Stock
+PD-DC-002;Day Cream SPF50 50ml;11,25;29,95;N;In Stock
+PD-NC-001;Night Cream Retinol 50ml;13,00;34,95;N;In Stock
+PD-NC-002;Night Cream Peptide 50ml;14,50;37,95;N;In Stock
+PD-EC-001;Eye Contour Cream 15ml;10,00;28,95;N;In Stock
+PD-SE-001;Hyaluronic Serum 30ml;I2,5;32,95;N;In Stock
+PD-SE-002;Vitamin C Serum 30ml;14,00;36,95;N;Low Stock
+PD-FM-001;Gentle Foaming Cleanser 150ml;6,25;17,95;N;In Stock
+PD-FM-002;Micellar Cleansing Foam 150ml;6,75;18,95;N;In Stock
+PD-BL-001;Exfoliating Peel 75ml;8,00;22,95;N;In Stock
+PD-BL-002;Enzyme Peeling Mask 75ml;9,50;24,95;N;In Stock
+PD-HC-001;Nourishing Hair Mask 200ml;7,50;21,95;N;In Stock
+PD-HC-002;Scalp Treatment Serum 100ml;11,00;29,95;N;In Stock
+PD-GS-001;Skincare Starter Kit;28,00;74,95;N;In Stock
+PD-TO-001;Balancing Toner 150ml;5,50;15,95;N;In Stock

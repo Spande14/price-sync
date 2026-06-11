@@ -1,0 +1,16 @@
+SKU,Product Name,Cost Price (EUR),RRP (EUR),Currency,MOQ
+AB-EDP-001,Signature Eau de Parfum 50ml,18.50,49.95,EUR,6
+AB-EDP-002,Signature Eau de Parfum 100ml,24.00,64.95,EUR,6
+AB-EDP-003,Noir Intense EDP 50ml,21.00,54.95,EUR,6
+AB-EDP-004,Noir Intense EDP 100ml,27.50,69.95,EUR,6
+AB-EDP-005,Rose Élégante EDP 30ml,15.00,39.95,EUR,12
+AB-EDT-001,Fresh Citrus EDT 50ml,12.00,34.95,EUR,6
+AB-EDT-002,Fresh Citrus EDT 100ml,16.50,44.95,EUR,6
+AB-EDT-003,Sport Blue EDT 50ml,13.00,34.95,EUR,6
+AB-EDT-004,Sport Blue EDT 100ml,17.00,44.95,EUR,6
+AB-BM-001,Velvet Body Milk 200ml,8.50,22.95,EUR,12
+AB-BM-002,Velvet Body Milk 400ml,13.00,32.95,EUR,6
+AB-GS-001,Luxury Gift Set - Signature,42.00,99.95,EUR,2
+AB-GS-002,Luxury Gift Set - Noir,45.00,109.95,EUR,2
+AB-HP-001,Home Perfume Diffuser 100ml,14.00,39.95,EUR,6
+AB-HP-002,Home Perfume Diffuser 200ml,19.50,54.95,EUR,6

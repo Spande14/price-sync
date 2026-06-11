@@ -1,0 +1,43 @@
+﻿sku,product_name,brand,category,active,cost_price,current_rrp
+AB-EDP-001,AromaBelle Noir Eau de Parfum 50ml,AromaBelle,Fragrance,true,19.50,49.95
+AB-EDP-002,AromaBelle Noir Eau de Parfum 100ml,AromaBelle,Fragrance,true,23.00,62.95
+AB-EDP-003,AromaBelle Rose Sauvage Eau de Parfum 50ml,AromaBelle,Fragrance,true,21.00,57.95
+AB-EDP-004,AromaBelle Rose Sauvage Eau de Parfum 100ml,AromaBelle,Fragrance,true,27.00,66.95
+AB-EDT-001,AromaBelle Citrus Fresh Eau de Toilette 50ml,AromaBelle,Fragrance,true,12.50,35.95
+AB-EDT-002,AromaBelle Citrus Fresh Eau de Toilette 75ml,AromaBelle,Fragrance,true,17.50,44.95
+AB-EDT-003,AromaBelle Cedar & Oud Eau de Toilette 50ml,AromaBelle,Fragrance,true,14.00,33.95
+AB-EDT-004,AromaBelle Cedar & Oud Eau de Toilette 75ml,AromaBelle,Fragrance,true,16.50,45.95
+AB-BM-001,AromaBelle Noir Body Mist 200ml,AromaBelle,Fragrance,true,8.50,21.95
+AB-BM-002,AromaBelle Rose Sauvage Body Mist 200ml,AromaBelle,Fragrance,true,12.50,32.95
+AB-GS-001,AromaBelle Noir Gavesæt (EdP 50ml + Body Mist 100ml),AromaBelle,Fragrance,true,41.50,95.95
+AB-GS-002,AromaBelle Rose Premium Gavesæt (EdP 100ml + Lotion 150ml),AromaBelle,Fragrance,true,46.00,105.95
+AB-HP-001,AromaBelle Noir Hårparfume 75ml,AromaBelle,Fragrance,true,13.50,40.95
+AB-HP-002,AromaBelle Rose Hårparfume 75ml,AromaBelle,Fragrance,true,19.00,58.95
+PD-DC-001,PureDerm Intensive Dagcreme SPF30 50ml,PureDerm,Skincare,true,10.00,26.95
+PD-DC-002,PureDerm Hydra Boost Dagcreme 50ml,PureDerm,Skincare,true,11.50,28.95
+PD-NC-001,PureDerm Repair Natcreme 50ml,PureDerm,Skincare,true,13.00,35.95
+PD-NC-002,PureDerm Anti-Age Natcreme 50ml,PureDerm,Skincare,true,15.00,40.95
+PD-EC-001,PureDerm Eye Lift Øjencreme 15ml,PureDerm,Skincare,true,10.50,29.95
+PD-SE-001,PureDerm Vitamin C Brightening Serum 30ml,PureDerm,Skincare,true,12.00,32.95
+PD-SE-002,PureDerm Hyaluron Plumping Serum 30ml,PureDerm,Skincare,true,15.00,40.95
+PD-FM-001,PureDerm Detox Lermask 75ml,PureDerm,Skincare,true,6.50,16.95
+PD-FM-002,PureDerm Glow Peel-Off Maske 75ml,PureDerm,Skincare,true,7.00,19.95
+PD-BL-001,PureDerm Rich Bodylotion 200ml,PureDerm,Skincare,true,8.00,22.95
+PD-BL-002,PureDerm Silky Touch Bodylotion 400ml,PureDerm,Skincare,true,10.50,23.95
+PD-HC-001,PureDerm Regenerating Håndcreme 75ml,PureDerm,Skincare,true,7.50,20.95
+PD-HC-002,PureDerm Intensive Håndcreme 150ml,PureDerm,Skincare,true,10.50,29.95
+PD-TO-001,PureDerm Clarifying Toner 150ml,PureDerm,Skincare,true,5.50,16.95
+VN-VIT-001,VitaNord C-vitamin 500mg 120 tabletter,VitaNord,Wellness,true,8.00,19.95
+VN-VIT-002,VitaNord D-vitamin 1000 IE 120 tabletter,VitaNord,Wellness,true,6.00,16.95
+VN-VIT-003,VitaNord Omega-3 Premium Fiskeolie 60 kapsler,VitaNord,Wellness,true,9.00,23.95
+VN-VIT-004,VitaNord Multivitamin & Mineral 60 tabletter,VitaNord,Wellness,true,15.50,38.95
+VN-SH-001,VitaNord Nordic Shampoo 250ml - Normalt hår,VitaNord,Wellness,true,4.00,11.95
+VN-SH-002,VitaNord Nordic Shampoo 250ml - Tørt hår,VitaNord,Wellness,true,5.00,11.95
+VN-BA-001,VitaNord Nordic Balsam 250ml,VitaNord,Wellness,true,5.50,13.95
+VN-SG-001,VitaNord Forest Fresh Brusegel 300ml,VitaNord,Wellness,true,4.00,10.95
+VN-SG-002,VitaNord Ocean Breeze Brusegel 300ml,VitaNord,Wellness,true,5.50,15.95
+VN-DEO-001,VitaNord Natural Deodorant Roll-on 50ml,VitaNord,Wellness,true,3.00,7.95
+VN-DEO-002,VitaNord Sport Deodorant Spray 150ml,VitaNord,Wellness,true,3.50,8.95
+VN-LP-001,VitaNord Nordic Lip Balm SPF15,VitaNord,Wellness,true,2.00,4.95
+VN-BS-001,VitaNord Coffee Body Scrub 200ml,VitaNord,Wellness,true,7.00,17.95
+VN-GS-001,VitaNord Wellness Gavesæt (Brusegel + Scrub + Lotion),VitaNord,Wellness,true,21.00,59.95
