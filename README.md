@@ -33,7 +33,7 @@ python3 main.py
 
 Files that can't be recognised are skipped with a warning; the rest of the batch still runs. Warnings are printed to stdout.
 
-## How it works (See price_sync_flow.png) for visualization)
+## How it works (See price_sync_flow.png for visualization)
 
 The script:
 1. Loads all supplier files from `data/input/` (a file whose columns can't be recognised is skipped with a warning — it does not abort the run)
